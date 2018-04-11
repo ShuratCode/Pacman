@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PackMan</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script src="packman_script.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+
+<body>
+
+
+<header>
+
+</header>
+<menu id="menu">
+    <ul>
+        <li><a href="#welcome" id="menu-welcome">Welcome</a></li>
+        <li><a href="#register" id="menu-register">Register</a></li>
+        <li><a href="#login" id="menu-login">Login</a></li>
+        <li><a href="#about" id="menu-about">About</a></li>
+    </ul>
+</menu>
+<content>
+    <div id="welcome">
+        Welcome to the PACMAN game web page. If you'r a registered user please login. If you'r a new user please
+        register
+        <div class="buttons">
+            <button id="login-button">Login</button>
+            <button id="register-button">Register</button>
+        </div>
+    </div>
+    <div id="register">
+        <form class="forms" id="register-form" action="" method="post">
+            <h2>Registration</h2>
+            <p type="User Name: "><input type="text" id="username" placeholder="Enter your username here...">
+            </p>
+            <p type="Password:"><input type="password" id="password" placeholder="Enter your password here...">
+            </p>
+            <p
+                    type="First Name: "><input type="text" id="first-name" placeholder=
+                    "Enter your first name here..."></p>
+            <p
+                    type="Last Name: "><input type="text" id="last-name"
+                                              placeholder="Enter your last name here..."></p>
+            <p type="Email: "><input type="email" id="email" placeholder="Enter your email here..."></p>
+            <p type="Birthday: "><input type="date" id="birthday" placeholder="Please choose your birthday"></p>
+            <button class="buttons" id="submit-register">Submit</button>
+        </form>
+    </div>
+    <div id="login">
+        <form class="forms" id="form-login">
+            <p
+                    type="Username: "><input class="input-login" type="text" id="login-username" placeholder=
+                    "Please enter your username here..."></p>
+            <p
+                    type="Password: "><input class="input-login" type="password" id="login-password"
+                                             placeholder=
+                                                     "Please enter your password here..."></p>
+            <button class="buttons" id="submit-login">Submit</button>
+        </form>
+    </div>
+    <div id="game">
+        SCORE:
+        <label for="lblScore"></label><input id="lblScore" type="text"/>
+        <br/>
+        TIME:
+        <label for="lblTime"></label><input id="lblTime" type="text"/>
+        <br/>
+        <button id="start">Start New Game</button>
+        <canvas id="canvas" height="600" width="600"></canvas>
+    </div>
+    <dialog id="about">
+        <p>Elior Nehemya</p>
+        <p>Shaked Eyal</p>
+        <p>The main use in the JQuery plugin where the use of the $(document).ready and to call the elements by id.
+            We didn't use templates at all. </p>
+
+        <div class="buttons">
+            <button id="modal">Close</button>
+        </div>
+    </dialog>
+</content>
+<footer></footer>
+</body>
+
+</html>

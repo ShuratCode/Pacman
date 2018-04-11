@@ -1,0 +1,167 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+html
+{
+    background-color: black;
+}
+
+body
+{
+    min-width: 1366px;
+    min-height: 768px;
+    color: blue;
+}
+
+header
+{
+}
+
+menu
+{
+    mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
+    margin: 0 auto;
+    padding: 60px 0;
+    min-width: 768px;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+menu ul
+{
+    text-align: center;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+menu ul li
+{
+    display: inline-block;
+    padding: 0 80px;
+}
+
+menu ul li a
+{
+    padding: 18px;
+    font-family: "Open Sans", sans-serif;
+    text-transform: uppercase;
+    color: yellow;
+    font-size: 18px;
+    text-decoration: none;
+    display: block;
+}
+
+menu ul li a:hover
+{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: yellow;
+}
+
+content
+{
+    text-align: center;
+    position: relative;
+    float: bottom;
+}
+
+button
+{
+    border-top: 1px solid #085382;
+    background: #4c91bf;
+    background: -webkit-gradient(linear, left top, left bottom, from(#135785), to(#4c91bf));
+    background: -webkit-linear-gradient(top, #135785, #4c91bf);
+    background: -moz-linear-gradient(top, #135785, #4c91bf);
+    background: -ms-linear-gradient(top, #135785, #4c91bf);
+    background: -o-linear-gradient(top, #135785, #4c91bf);
+    padding: 7.5px 15px;
+    -webkit-border-radius: 27px;
+    -moz-border-radius: 27px;
+    border-radius: 27px;
+    -webkit-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
+    -moz-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
+    box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
+    text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
+    color: #f7ff00;
+    font-size: 15px;
+    font-family: 'Lucida Grande', Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.forms
+{
+    width: 25vw;
+    height: 40vh;
+    font-size: 16px;
+    background-color: #495C70;
+    padding: 30px 30px 15px 30px;
+    border: 5px solid #53687E;
+    color: #ffffff;
+    text-align: center;
+    margin: calc(50vh - 400px) auto;
+}
+
+.forms p
+{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.forms p::before
+{
+    content: attr(type);
+    display: inline-block;
+    float: left;
+    width: 30%;
+}
+
+.forms input[type=text], .forms input[type=password], .forms input[type=email],
+.forms input[type=date]
+{
+    font-family: Georgia, "Times New Roman", Time, serif;
+    font-size: 16px;
+    color: #fff;
+}
+
+.forms input[type=text],
+.forms input[type=email],
+.forms input[type=password],
+.forms input[type=date]
+{
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed #83A4C5;
+    width: 60%;
+    outline: none;
+    padding: 0 0 0 0;
+    font-style: italic;
+}
+
+.forms input[type=text]:focus,
+.forms input[type=password]:focus,
+.forms input[type=email]:focus,
+.forms input[type=date]:focus
+{
+    border-bottom: 1px dashed #D9FFA9;
+}
+
+.forms input[type=text]::placeholder,
+.forms input[type=password]::placeholder,
+.forms input[type=email]::placeholder,
+.forms input[placeholder]
+{
+    color: rgba(172, 172, 0, 0.8);
+}
+
+#form-login p
+{
+    font-size: 20px;
+    margin: 50px auto;
+}
+
+#about
+{
+
+}
