@@ -2,14 +2,14 @@
 
 html
 {
-    background-color: black;
+    background-color: rgba(39, 39, 39, 0.92);
 }
 
 body
 {
     min-width: 1366px;
     min-height: 768px;
-    color: blue;
+    color: white;
 }
 
 header
@@ -161,7 +161,8 @@ button
     margin: 50px auto;
 }
 
-#about
+#welcome p
 {
-
+    font-size: 2em;
 }
+

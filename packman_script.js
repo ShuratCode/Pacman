@@ -7,7 +7,6 @@ let start_time;
 let time_elapsed;
 let interval;
 let users = {"a": "a"};
-let currentSide;
 
 
 
@@ -96,7 +95,7 @@ $(document).ready(function () {
     });
 
     $("#modal").click(function () {
-        $("#about")[0].style.display = "none";
+        $("#about")[0].close();
     });
 
 
@@ -305,7 +304,7 @@ function checkFirstLastName(name)
 
 function isValidEmailAddress(emailAddress)
 {
-    var regex = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+    let regex = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
     return regex.test(emailAddress);
 }
 
