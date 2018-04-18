@@ -3,9 +3,9 @@
 
 <head>
     <title>PackMan</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-    <script src="packman_script.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+    <script src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type = "text/javascript"></script>
+    <script src = "packman_script.js" type = "text/javascript"></script>
+    <link rel = "stylesheet" type = "text/css" media = "screen" href = "style.css">
 </head>
 
 <body>
@@ -14,22 +14,21 @@
 <header>
 
 </header>
-<menu id="menu">
+<menu id = "menu">
     <ul>
-        <li><a href="#welcome" id="menu-welcome">Welcome</a></li>
-        <li><a href="#register" id="menu-register">Register</a></li>
-        <li><a href="#login" id="menu-login">Login</a></li>
-        <li><a href="#about" id="menu-about">About</a></li>
+        <li><a href = "#welcome" id = "menu-welcome">Welcome</a></li>
+        <li><a href = "#register" id = "menu-register">Register</a></li>
+        <li><a href = "#login" id = "menu-login">Login</a></li>
+        <li><a href = "#about" id = "menu-about">About</a></li>
     </ul>
 </menu>
 <content>
-    <div id="welcome">
-        <p>Welcome to the PACMAN game web page. If you'r a registered user please login. If you'r a new user please
+    <div id = "welcome">
+        Welcome to the PACMAN game web page. If you'r a registered user please login. If you'r a new user please
         register
-        </p>
-        <div class="buttons">
-            <button id="login-button">Login</button>
-            <button id="register-button">Register</button>
+        <div class = "buttons">
+            <button id = "login-button">Login</button>
+            <button id = "register-button">Register</button>
         </div>
     </div>
     <div id="register">
@@ -62,16 +61,25 @@
             <button class="buttons" id="submit-login">Submit</button>
         </form>
     </div>
-    <div id="game">
+    <div id = "game">
         SCORE:
-        <label for="lblScore"></label><input id="lblScore" type="text"/>
+        <label for = "lblScore"></label><input id = "lblScore" type = "text"/>
         <br/>
         TIME:
-        <label for="lblTime"></label><input id="lblTime" type="text"/>
+        <label for = "lblTime"></label><input id = "lblTime" type = "text"/>
         <br/>
-        <button id="start">Start New Game</button>
-        <canvas id="canvas" height="600" width="600"></canvas>
+        <button id = "start">Start New Game</button>
+        <canvas id = "canvas" height = "600" width = "600"></canvas>
+
+        <audio id = "Them-Sound" preload = "auto">
+            <source src = "Pac-them.mp3" type = "audio/mpeg"></audio>
+        <audio id = "win-Sound" preload = "auto">
+            <source src = "win-Sound.mp3" type = "audio/mpeg"></audio>
+        <audio id = "lose-Sound" preload = "auto">
+            <source src = "lose-Sound.mp3" type = "audio/mpeg"></audio>
+
     </div>
+
     <dialog id="about">
         <p>Elior Nehemya</p>
         <p>Shaked Eyal</p>
