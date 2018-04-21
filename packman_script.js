@@ -5,14 +5,19 @@ let score;
 let pac_color;
 let start_time;
 let time_elapsed;
-let interval;
+let interval=0;
 let users = {"a": "a"};
 //add
+let BallsN;
+let c5;
+let c15;
+let c25;
+let Time;
+let ghostsN;
 let movement=3;
 let ghost1={};
-let ghost2={};
-let ghost3={};
-let ghost4={};
+let ghost2=[15,15];
+let ghost3=[15,15];
 let enemyC=0;
 let candy={};
 let themSound;
@@ -21,6 +26,10 @@ let loseSound;
 let health;
 let imgGhost;
 let imgCandy;
+let imgPsydac;
+let Psy={};
+let imgHeart;
+let heart={};
 
 /**     after load preperation            */
 $(document).ready(function () {
@@ -48,6 +57,38 @@ $(document).ready(function () {
         showLogin();
         return false;
     });
+    $("#submit-gameSet").click(function () {
+        //get the game settings
+        BallsN=document.getElementById("BallsN").value;
+        c5=document.getElementById("5color").value;
+        c15=document.getElementById("15color").value;
+        c25=document.getElementById("25color").value;
+        Time=document.getElementById("Time").value;
+        if(Time==="50s"){
+            Time=50;
+        }
+        else if(Time==="60s"){
+            Time=60;
+        }
+        else if(Time==="70s"){
+            Time=70;
+        }
+        else if(Time==="80s"){
+            Time=80;
+        }
+        else if(Time==="90s"){
+            Time=90;
+        }
+        ghostsN=document.getElementById("GhostsN").value;
+        if(ghostsN==="1"){
+            ghostsN=1;
+        }
+        else if(ghostsN==="2"){
+            ghostsN=2;
+        }
+        else ghostsN=3;
+        showGame();
+    })
 
     $("#submit-register").click(function () {
         let username = $("#username").val();
@@ -90,7 +131,7 @@ $(document).ready(function () {
 
         if (null !== username && null !== password && users[username] === password)
         {
-            showGame();
+            showPreGame();
         }
         else
         {
@@ -100,7 +141,10 @@ $(document).ready(function () {
     });
 
     $("#start").click(function () {
-        Start();
+        if(interval!==0) {
+            window.clearInterval(interval);
+        }
+        showPreGame();
     });
 
     $("#menu-about").click(function () {
@@ -120,7 +164,7 @@ function Start() {
     score = 0;
     pac_color = "yellow";
     let cnt = 100;
-    let food_remain = 50;
+    let food_remain = BallsN;
     let pacman_remain = 1;
     //sound
     winSound=document.getElementById("win-Sound");
@@ -133,8 +177,10 @@ function Start() {
     themSound.play();
     imgCandy=new Image();
     imgCandy.src="Candy.png";
-
-
+    imgPsydac=new Image();
+    imgPsydac.src="psy.png";
+    imgHeart=new Image();
+    imgHeart.src="heart.png";
     imgGhost=new Image();
     imgGhost.src="Ghost.png";
     //health
@@ -148,29 +194,43 @@ function Start() {
             if ((i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 6 && j === 1) || (i === 6 && j === 2)) {
                 board[i][j] = 4;
             }
-            else {
-                let randomNum = Math.random();
-                if (randomNum <= 1.0 * food_remain / cnt) {
-                    food_remain--;
-                    board[i][j] = 1;
-                } else if (randomNum < 1.0 * (pacman_remain + food_remain) / cnt) {
-                    shape.i = i;
-                    shape.j = j;
-                    pacman_remain--;
-                    board[i][j] = 2;
-                } else {
-                    board[i][j] = 0;
-                }
-                cnt--;
-            }
+            else board[i][j]=0;
+
         }
-
-
     }
+    let flag=true;
+    while (flag){
+        let emptyCell=findRandomEmptyCell(board);
+        if(emptyCell[0]>0&&emptyCell[0]<9&&emptyCell[1]>0&&emptyCell[1]<9){
+            shape.i=emptyCell[0];
+            shape.j=emptyCell[1];
+            board[emptyCell[0]][emptyCell[1]]=2;
+            flag=false;
+        }
+    }
+    let emptyCell=findRandomEmptyCell(board);
+    Psy[0]=emptyCell[0];
+    Psy[1]=emptyCell[1];
+    Psy[2]=1;
+    Psy[3]=0;
+    Psy[4]=0;
+    heart[0]=0;
+    heart[1]=0;
+    heart[2]=0;
     while (food_remain > 0) {
         let emptyCell = findRandomEmptyCell(board);
-        board[emptyCell[0]][emptyCell[1]] = 1;
-        food_remain--;
+        if(BallsN-food_remain<BallsN*0.6){
+            board[emptyCell[0]][emptyCell[1]] = 5;
+            food_remain--;
+        }
+        else if(BallsN-food_remain<BallsN*0.9){
+            board[emptyCell[0]][emptyCell[1]] = 15;
+            food_remain--;
+        }
+        else {
+            board[emptyCell[0]][emptyCell[1]] = 25;
+            food_remain--;
+        }
     }
     keysDown = {};
     addEventListener("keydown", function (e) {
@@ -182,14 +242,16 @@ function Start() {
     //put the ghosts at corners
     ghost1[0]=0;
     ghost1[1]=0;
-    ghost2[0]=9;
-    ghost2[1]=0;
-    ghost3[0]=0;
-    ghost3[1]=9;
-    ghost4[0]=9;
-    ghost4[1]=9;
-    candy[0]=8;
-    candy[1]=8;
+    if(ghostsN<=2){
+        ghost2[0]=9;
+        ghost2[1]=0;
+        if(ghostsN<=3){
+            ghost3[0]=0;
+            ghost3[1]=9;
+        }
+    }
+    candy[0]=9;
+    candy[1]=9;
     candy[2]=1;
 
     interval = setInterval(UpdatePosition, 200);
@@ -197,11 +259,11 @@ function Start() {
 
 
 function findRandomEmptyCell(board) {
-    let i = Math.floor((Math.random() * 9) + 1);
-    let j = Math.floor((Math.random() * 9) + 1);
+    let i = Math.floor((Math.random() * 10) );
+    let j = Math.floor((Math.random() * 10) );
     while (board[i][j] !== 0) {
-        i = Math.floor((Math.random() * 9) + 1);
-        j = Math.floor((Math.random() * 9) + 1);
+        i = Math.floor((Math.random() * 10) );
+        j = Math.floor((Math.random() * 10) );
     }
     return [i, j];
 }
@@ -227,8 +289,14 @@ function GetKeyPressed() {
 function Draw() {
     canvas.width = canvas.width; //clean board
     lblScore.value = score;
-    lblTime.value = time_elapsed;
+    lblTime.value =Time-time_elapsed;
+    lbLives.value=health;
+
     const center = {};
+    if(Psy[2]===0&&Psy[4]<10){
+        pac_color="red";
+    }
+    else pac_color="yellow";
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
 
@@ -236,14 +304,15 @@ function Draw() {
             center.y = j * 60 + 30;
             if (board[i][j] === 2) {
                 context.beginPath();
-
                 if(movement===1){
                     context.arc(center.x, center.y, 30, (1.5+0.15) * Math.PI, (1.5+1.85) * Math.PI);//up
                     context.lineTo(center.x, center.y);
+
                     context.fillStyle = pac_color; //color
                     context.fill();
                     context.beginPath();
                     context.arc(center.x -15, center.y - 5, 5, 0, 2 * Math.PI); // circle
+
                     context.fillStyle = "white"; //color
                     context.fill();
                 }
@@ -257,7 +326,6 @@ function Draw() {
                     context.fillStyle = "white"; //color
                     context.fill();
                 }
-
                 else if(movement===3){
                     context.arc(center.x, center.y, 30, (1+0.15) * Math.PI, (1+1.85) * Math.PI);//left
                     context.lineTo(center.x, center.y);
@@ -278,12 +346,16 @@ function Draw() {
                     context.fillStyle = "white"; //color
                     context.fill();
                 }
-                //context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
-
-            } else if (board[i][j] === 1) {
+            } else if (board[i][j] === 5||board[i][j] === 15 ||board[i][j] === 25) {  //balls
                 context.beginPath();
                 context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                context.fillStyle = "white"; //color
+                if(board[i][j] === 5){
+                    context.fillStyle = c5; //color
+                }
+                else if(board[i][j] === 15){
+                    context.fillStyle = c15; //color
+                }
+                else context.fillStyle = c25; //color
                 context.fill();
             }
             else if (board[i][j] === 4) {  //obsecal
@@ -292,36 +364,39 @@ function Draw() {
                 context.fillStyle = "blue"; //color
                 context.fill();
             }
-
         }
     }
     // draw ghosts
     center.x = ghost1[0] * 60;
     center.y = ghost1[1] * 60;
     context.drawImage(imgGhost, center.x, center.y , 50, 50);
-    center.x = ghost2[0] * 60 ;
-    center.y = ghost2[1] * 60 ;
-    context.drawImage(imgGhost, center.x, center.y , 50, 50);
-    center.x = ghost3[0] * 60 ;
-    center.y = ghost3[1] * 60 ;
-    context.drawImage(imgGhost, center.x, center.y , 50, 50);
-    center.x = ghost4[0] * 60 ;
-    center.y = ghost4[1] * 60 ;
-    context.drawImage(imgGhost, center.x, center.y , 50, 50);
+    if(ghostsN<=2){
+        center.x = ghost2[0] * 60 ;
+        center.y = ghost2[1] * 60 ;
+        context.drawImage(imgGhost, center.x, center.y , 50, 50);
+    }
+    if(ghostsN<=3){
+        center.x = ghost3[0] * 60 ;
+        center.y = ghost3[1] * 60 ;
+        context.drawImage(imgGhost, center.x, center.y , 50, 50);
+    }
     //draw candy
     if(candy[2]===1){
         center.x = candy[0] * 60 ;
         center.y = candy[1] * 60 ;
         context.drawImage(imgCandy, center.x, center.y , 50, 50);
-
-        /**context.beginPath();
-         context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
-         context.fillStyle = "green"; //color
-         context.fill();**/
     }
 
-
-
+    if (Psy[2]===1){
+        center.x = Psy[0] * 60 ;
+        center.y = Psy[1] * 60 ;
+        context.drawImage(imgPsydac, center.x, center.y , 50, 50);
+    }
+    if(heart[2]===1){
+        center.x = heart[0] * 60 ;
+        center.y = heart[1] * 60 ;
+        context.drawImage(imgHeart, center.x, center.y , 50, 50);
+    }
 }
 
 function UpdatePosition() {
@@ -329,7 +404,17 @@ function UpdatePosition() {
     enemyC=enemyC%5;
     board[shape.i][shape.j] = 0;
     let x = GetKeyPressed();
-    let collusion=0;
+    if(Psy[2]===0&&Psy[4]<10){
+        if(x==1){
+            x=2;
+        }else if(x===2){
+            x=1;
+        }else if(x===3){
+            x=4;
+        }else if(x===4){
+            x=3;
+        }
+    }
     if (x === 1) {
         if (shape.j > 0 && board[shape.i][shape.j - 1] !== 4) {
             shape.j--;
@@ -354,12 +439,54 @@ function UpdatePosition() {
             movement=x;
         }
     }
-    if (board[shape.i][shape.j] === 1) {
-        score++;
+    if (board[shape.i][shape.j] === 5) {
+        if(Psy[2]===0&&Psy[4]<10){
+            score+=10;
+            BallsN--;
+        }
+        else {
+            score+=5;
+            BallsN--;
+        }
+    }
+    if (board[shape.i][shape.j] === 15) {
+        if(Psy[2]===0&&Psy[4]<10){
+            score+=30;
+            BallsN--;
+        }else{
+            score+=15;
+            BallsN--;
+        }
+    }
+    if (board[shape.i][shape.j] === 25) {
+        if(Psy[2]===0&&Psy[4]<10){
+            score+=50;
+            BallsN--;
+        }
+        else{
+            score+=25;
+            BallsN--;
+        }
+    }
+    if(heart[2]===1&&shape.i===heart[0]&&shape.j===heart[1]){
+        heart[2]=2;
+        health++;
     }
     if(shape.i===candy[0]&&shape.j===candy[1]&&candy[2]!==0){
+        if(Psy[2]===0&&Psy[4]<10){
+            score+=100;
+            BallsN--;
+        }
         candy[2]=0;
         score=score+50;
+    }
+    if(shape.i===Psy[0]&&shape.j===Psy[1]&&Psy[2]===1){
+        Psy[2]=0;
+        Psy[3]=new Date()
+    }
+    else if(Psy[2]===0){
+        let currentTime = new Date();
+        Psy[4]=((currentTime-Psy[3])/1000);
     }
     if(!isAlive(board)){ //post pac move
         health--;
@@ -367,17 +494,16 @@ function UpdatePosition() {
         if(health>0){
             reset();
         }
-
     }
-
     board[shape.i][shape.j] = 2;
-
-
     if(enemyC===4&&isAlive(board)){//move enemy
         moveEnemy1(board);
-        moveEnemy2(board);
-        moveEnemy3(board);
-        moveEnemy4(board);
+        if(ghostsN<=2){
+            moveEnemy2(board);
+        }
+        if (ghostsN<=3){
+            moveEnemy3(board);
+        }
         candyMove(board);
     }
     if(!isAlive(board)){ //post enemy move
@@ -389,23 +515,36 @@ function UpdatePosition() {
     }
     let currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
+    if(time_elapsed>10&&heart[2]===0){
+        heart[2]=1;
+        let pos=findRandomEmptyCell(board);
+        heart[0]=pos[0];
+        heart[1]=pos[1];
+    }
     if (score >= 20 && time_elapsed <= 10) {
         pac_color = "green";
     }
-    if (score === 100) {
+    if (BallsN===0) {
 
         themSound.pause();
         themSound.currentTime = 0;
         winSound.play();
         window.clearInterval(interval);
-        window.alert("Game completed");
+
+        if(score<150){
+            window.alert("You can do better");
+        }
+        else{
+            window.alert("We have a Winner!!!");
+        }
+
     }
-    else if(health<=0){
+    else if(health<=0||Time-time_elapsed<0){
         themSound.pause();
         themSound.currentTime = 0;
         loseSound.play();
         window.clearInterval(interval);
-        window.alert("Game Over! to try again press start game");
+        window.alert("You Lost!");
     }
     else {
         Draw();
@@ -420,12 +559,14 @@ function reset(){
     shape.j=emptyCell[1];
     ghost1[0]=0;
     ghost1[1]=0;
-    ghost2[0]=9;
-    ghost2[1]=0;
-    ghost3[0]=0;
-    ghost3[1]=9;
-    ghost4[0]=9;
-    ghost4[1]=9;
+    if(ghostsN<=2){
+        ghost2[0]=9;
+        ghost2[1]=0;
+    }
+    if(ghostsN<=3){
+        ghost3[0]=0;
+        ghost3[1]=9;
+    }
     if(candy[2]!==0){
         candy[0]=8;
         candy[1]=8;
@@ -671,90 +812,18 @@ function moveEnemy3(board ){
     }
 
 }
-function moveEnemy4(board ){
-    let x=ghost4[0];
-    let y=ghost4[1];
-    let xDist=shape.i-x;
-    let yDist=shape.j-y;
 
-    if((xDist*xDist)>(yDist*yDist)){//xDist gratter then yDist
-        if(xDist>0){
-            if(FreeCell(x+1,y)){
-                ghost4[0]++;
-            }
-            else if(yDist>0){
-                if(FreeCell(x,y+1)){
-                    ghost4[1]++;
-                }
-            }
-            else if(yDist<0){
-                if(FreeCell(x,y-1)){
-                    ghost4[1]--;
-                }
-            }
-        }
-        else if(xDist<0){
-            if(FreeCell(x-1,y)){
-                ghost4[0]--;
-            }
-            else if(yDist>0){
-                if(FreeCell(x,y+1)){
-                    ghost4[1]++;
-                }
-            }
-            else if(yDist<0){
-                if(FreeCell(x,y-1)){
-                    ghost4[1]--;
-                }
-            }
-        }
-    }
-    else{ if(yDist>0){
-        if(FreeCell(x,y+1)){
-            ghost4[1]++;
-        }
-        else if(xDist>0){
-            if(FreeCell(x+1,y)){
-                ghost4[0]++;
-            }
-        }
-        else if(xDist<0){
-            if(FreeCell(x-1,y)){
-                ghost4[0]--;
-            }
-        }
-    }
-    else if(yDist<0){
-        if(FreeCell(x,y-1)){
-            ghost4[1]--;
-        }
-        else if(xDist>0){
-            if(FreeCell(x+1,y)){
-                ghost4[0]++;
-            }
-        }
-        else if(xDist<0){
-            if(FreeCell(x-1,y)){
-                ghost4[0]--;
-            }
-        }
-    }
-    }
-
-}
 function isAlive(board){
     if(shape.i===ghost1[0]&&shape.j===ghost1[1]){
         return 0;
     }
-    else if(shape.i===ghost2[0]&&shape.j===ghost2[1]){
+    else if(ghostsN<=2&&shape.i===ghost2[0]&&shape.j===ghost2[1]){
         return 0;
     }
-    else if(shape.i===ghost3[0]&&shape.j===ghost3[1]){
+    else if(ghostsN<=3&&shape.i===ghost3[0]&&shape.j===ghost3[1]){
         return 0;
     }
-    else if(shape.i===ghost4[0]&&shape.j===ghost4[1]){
-        return 0;
-    }
+
     return 1;
 
 }
@@ -767,14 +836,12 @@ function FreeCell(x,y) {
                 if(ghost1[0]!==x||ghost1[1]!==y){
                     if(ghost2[0]!==x||ghost2[1]!==y){
                         if(ghost3[0]!==x||ghost3[1]!==y){
-                            if(ghost4[0]!==x||ghost4[1]!==y){//not any other ghost
-                                if(candy[2]===1){
-                                    if(candy[0]!==x||candy[1]!==y){
-                                        return 1;
-                                    }
+                            if(candy[2]===1){
+                                if(candy[0]!==x||candy[1]!==y){
+                                    return 1;
                                 }
-                                else return 1;
                             }
+                            else return 1;
                         }
                     }
                 }
@@ -789,6 +856,7 @@ function showWelcome() {
     $("#register").hide();
     $("#login").hide();
     $("#game").hide();
+    $("#pre-game").hide();
 }
 
 function showRegistre() {
@@ -796,6 +864,7 @@ function showRegistre() {
     $("#register").show();
     $("#login").hide();
     $("#game").hide();
+    $("#pre-game").hide();
 }
 
 function showLogin() {
@@ -803,15 +872,24 @@ function showLogin() {
     $("#register").hide();
     $("#login").show();
     $("#game").hide();
+    $("#pre-game").hide();
 }
 
 function showGame() {
     $("#welcome").hide();
     $("#register").hide();
     $("#login").hide();
+    $("#pre-game").hide();
     $("#game").show();
 
     Start();
+}
+function showPreGame() {
+    $("#welcome").hide();
+    $("#register").hide();
+    $("#login").hide();
+    $("#game").hide();
+    $("#pre-game").show();
 }
 
 /** validation funcs**/
