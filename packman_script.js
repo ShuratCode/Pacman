@@ -88,7 +88,7 @@ $(document).ready(function () {
         }
         else ghostsN=3;
         showGame();
-    })
+    });
 
     $("#submit-register").click(function () {
         let username = $("#username").val();
@@ -140,7 +140,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $("#start").click(function () {
+    $('#start').click(function () {
         if(interval!==0) {
             window.clearInterval(interval);
         }
@@ -234,9 +234,11 @@ function Start() {
     }
     keysDown = {};
     addEventListener("keydown", function (e) {
+        e.preventDefault();
         keysDown[e.keyCode] = true;
     }, false);
     addEventListener("keyup", function (e) {
+        e.preventDefault();
         keysDown[e.keyCode] = false;
     }, false);
     //put the ghosts at corners
@@ -285,6 +287,7 @@ function GetKeyPressed() {
         return 4;
     }
 }
+
 
 function Draw() {
     canvas.width = canvas.width; //clean board
@@ -399,6 +402,9 @@ function Draw() {
     }
 }
 
+/**
+ * @return {boolean}
+ */
 function UpdatePosition() {
     enemyC++;
     enemyC=enemyC%5;
@@ -549,10 +555,11 @@ function UpdatePosition() {
     else {
         Draw();
     }
+    return false;
 }
 
 function reset(){
-    board[shape.i][shape.j]=0
+    board[shape.i][shape.j]=0;
     let emptyCell=findRandomEmptyCell(board);
     board[emptyCell[0]][emptyCell[1]]=2;
     shape.i=emptyCell[0];
@@ -605,7 +612,7 @@ function moveEnemy1(board ){
     let xDist=shape.i-x;
     let yDist=shape.j-y;
 
-    if((xDist*xDist)>(yDist*yDist)){//xDist gratter then yDist
+    if((xDist*xDist)>(yDist*yDist)){//xDist grater then yDist
         if(xDist>0){
             if(FreeCell(x+1,y)){
                 ghost1[0]++;
@@ -829,6 +836,9 @@ function isAlive(board){
 }
 
 
+/**
+ * @return {number}
+ */
 function FreeCell(x,y) {
     if(x>=0&&x<10){
         if(y>=0&&y<10){

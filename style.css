@@ -20,7 +20,7 @@ header
 menu
 {
     mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
-    margin: 0px;
+    margin: 0;
     min-width: 768px;
     top: 0;
     left: 0;
@@ -125,7 +125,7 @@ button
 }
 
 .forms input[type=text], .forms input[type=password], .forms input[type=email],
-.forms input[type=date]
+.forms input[type=date], .form input[type=color]
 {
     font-family: Georgia, "Times New Roman", Time, serif;
     font-size: 16px;
@@ -157,7 +157,8 @@ button
 .forms input[type=text]::placeholder,
 .forms input[type=password]::placeholder,
 .forms input[type=email]::placeholder,
-.forms input[placeholder]
+.forms input[placeholder],
+.forms input[type=color]
 {
     color: rgba(172, 172, 0, 0.8);
 }
@@ -176,9 +177,34 @@ button
 #logo {
     position: static;
     width: 800px;
-    padding-left: 25% ;
+    margin-left: 30%;
 
 }
+#form-preGame
+{
+    width: 35vw;
+    font-size: 20px;
+    justify-content: center;
+}
+#form-preGame ul
+{
+    list-style: none;
+}
+#form-preGame li
+{
+    padding: 10px;
+}
+#form-preGame li > input
+{
+    margin-left: 3px;
+}
+#form-preGame p
+{
+    display: block;
+    margin-bottom: 10px;
+
+}
+
 footer{
     text-align: center;
 }
