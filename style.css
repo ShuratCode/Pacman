@@ -14,13 +14,13 @@ body
 
 header
 {
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 menu
 {
     mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
-    margin: 0px;
+    margin: 0;
     min-width: 768px;
     top: 0;
     left: 0;
@@ -32,7 +32,7 @@ menu ul
     text-align: center;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
-    margin: 0px;
+    margin: 0;
 }
 
 menu ul li
@@ -65,14 +65,16 @@ content
     position: relative;
     float: bottom;
 }
-content div{
+
+content div
+{
     width: 800px;
-    height:650px;
+    height: 650px;
     margin: auto;
     padding: 5px;
 }
 
-button
+button, #submit-gameSet
 {
     border-top: 1px solid #085382;
     background: #4c91bf;
@@ -173,12 +175,44 @@ button
     font-size: 2em;
 }
 
-#logo {
+#logo
+{
     position: static;
     width: 800px;
-    padding-left: 25% ;
+    margin-left: 30%;
 
 }
-footer{
+
+#form-preGame
+{
+    width: 35vw;
+    font-size: 20px;
+    justify-content: center;
+}
+
+#form-preGame ul
+{
+    list-style: none;
+}
+
+#form-preGame li
+{
+    padding: 10px;
+}
+
+#form-preGame li > input
+{
+    margin-left: 3px;
+}
+
+#form-preGame p
+{
+    display: block;
+    margin-bottom: 10px;
+
+}
+
+footer
+{
     text-align: center;
 }
