@@ -518,7 +518,7 @@ function UpdatePosition() {
     if (score >= 20 && time_elapsed <= 10) {
         pac_color = "green";
     }
-    if (BallsN === 0) {
+    if (BallsN === 0|| Time - time_elapsed < 0) {
 
         themSound.pause();
         themSound.currentTime = 0;
@@ -533,7 +533,7 @@ function UpdatePosition() {
         }
 
     }
-    else if (health <= 0 || Time - time_elapsed < 0) {
+    else if (health <= 0 ) {
         themSound.pause();
         themSound.currentTime = 0;
         loseSound.play();
